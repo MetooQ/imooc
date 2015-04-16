@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">   
+        /*
+         * param1 Array 
+         * param2 Array
+         * return true or false
+         */
+        function arraysSimilar(arr1, arr2){
+            if(arr1==null || arr2==null || arr1.length != arr2.length){
+                return false;
+            }else if(typeof arr1 == 'string' || typeof arr2 =='string'){
+                if(arr1 === arr2){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                var type1 = getType(arr1);
+                var type2 = getType(arr2);
+                document.write('type1::' +type1 + '<br>');
+                document.write('type2::' +type2 + '<br><br>');
+                return distinct(type1).sort().toString() == distinct(type2).sort().toString();           
+            }
+                        
+        }
+        function getType(arr){
+            var type = [];
+            for(var i = 0; i<arr.length; i++){
+                if(typeof arr[i] == 'object'){
+                    if(arr[i] instanceof Function){
+                        type[i] = 'Function';
+                    }else if(arr[i] instanceof Date){
+                        type[i] = 'Date';
+                    }else if(arr[i] === null){
+                        type[i] = 'null';
+                    }else if(arr[i] == window){
+                        type[i] = 'window';
+                    }else{
+                        type[i] = 'object';
+                    } 
+                }else{
+                    type[i] = typeof arr[i];
+                }
+            }
+            return type;
+            
+        }
+        function distinct(arr){
+            for(i = 0; i<arr.length; i++){
+                for(j = i+1; j<arr.length;){
+                    if(arr[i] === arr[j]){
+                        arr.splice(j,1);
+                    }else{
+                        j++;
+                    }                    
+                }
+            }
+            return arr;
+        }
+    </script>
+    <script src="testData.js"></script>
+</body>
+</html>
