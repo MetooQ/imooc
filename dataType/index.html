@@ -11,57 +11,44 @@
          * param2 Array
          * return true or false
          */
-        function arraysSimilar(arr1, arr2){
-            if(arr1==null || arr2==null || arr1.length != arr2.length){
+        function arraysSimilar(arr1, arr2) {
+
+            if (getType(arr1) !== 'array' 
+                || getType(arr2) !== 'array'
+                || arr1.length !== arr2.length
+            ) {
                 return false;
-            }else if(typeof arr1 == 'string' || typeof arr2 =='string'){
-                if(arr1 === arr2){
-                    return true;
-                }else{
+            }
+        
+            var hash1 = hash(arr1);
+            var hash2 = hash(arr2);
+        
+            for (var type in hash1) {
+                if (hash2[type] !== hash1[type]) {
                     return false;
                 }
-            }else{
-                var type1 = getType(arr1);
-                var type2 = getType(arr2);
-                document.write('type1::' +type1 + '<br>');
-                document.write('type2::' +type2 + '<br><br>');
-                return distinct(type1).sort().toString() == distinct(type2).sort().toString();           
             }
-                        
+        
+            return true;
+        
         }
-        function getType(arr){
-            var type = [];
-            for(var i = 0; i<arr.length; i++){
-                if(typeof arr[i] == 'object'){
-                    if(arr[i] instanceof Function){
-                        type[i] = 'Function';
-                    }else if(arr[i] instanceof Date){
-                        type[i] = 'Date';
-                    }else if(arr[i] === null){
-                        type[i] = 'null';
-                    }else if(arr[i] == window){
-                        type[i] = 'window';
-                    }else{
-                        type[i] = 'object';
-                    } 
-                }else{
-                    type[i] = typeof arr[i];
-                }
+        
+        function hash(arr) {
+        
+            var result = {};
+        
+            for (var i = 0, len = arr.length; i < len; ++i) {
+                var type = getType(arr[i]);
+                result[type] = result[type]
+                    ? result[type] + 1
+                    : 1;
             }
-            return type;
-            
+        
+            return result;
         }
-        function distinct(arr){
-            for(i = 0; i<arr.length; i++){
-                for(j = i+1; j<arr.length;){
-                    if(arr[i] === arr[j]){
-                        arr.splice(j,1);
-                    }else{
-                        j++;
-                    }                    
-                }
-            }
-            return arr;
+        
+        function getType(obj) {
+            return Object.prototype.toString.call(obj).slice(8, -1);
         }
     </script>
     <script src="testData.js"></script>
